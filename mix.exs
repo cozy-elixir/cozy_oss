@@ -35,6 +35,7 @@ defmodule CozyOSS.MixProject do
   defp deps do
     [
       {:sax_map, "~> 1.0"},
+      {:mime, "~> 2.0"},
       {:ex_doc, "~> 0.25", only: :dev, runtime: false},
       {:finch, "~> 0.13", only: [:dev, :test]}
     ]

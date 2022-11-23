@@ -117,12 +117,15 @@ defmodule CozyOSS.ApiRequest do
   defp set_essential_headers(%__MODULE__{} = req) do
     req
     |> set_header_lazy("content-md5", fn -> md5_hash(req.body) end)
-    |> set_header_lazy("content-type", fn -> get_content_type(req) end)
+    |> set_header_lazy("content-type", fn -> detect_content_type(req) end)
     |> set_header_lazy("date", fn -> gmt_now() end)
   end
 
-  defp get_content_type(_req) do
-    "application/octet-stream"
+  defp detect_content_type(%__MODULE__{} = req) do
+    case Path.extname(req.path) do
+      "." <> name -> MIME.type(name)
+      _ -> "application/octet-stream"
+    end
   end
 
   defp set_signature(%Config{} = config, %__MODULE__{} = req, opts) do
