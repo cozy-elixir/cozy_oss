@@ -3,8 +3,20 @@ defmodule CozyAliyunOSS.ApiSpec do
   Describes the specification of an API.
   """
 
-  @enforce_keys [:method, :path, :query, :headers, :body]
-  defstruct method: nil,
+  @enforce_keys [
+    :bucket,
+    :object,
+    :sub_resources,
+    :method,
+    :path,
+    :query,
+    :headers,
+    :body
+  ]
+  defstruct bucket: nil,
+            object: nil,
+            sub_resources: %{},
+            method: nil,
             path: nil,
             query: %{},
             headers: %{},
