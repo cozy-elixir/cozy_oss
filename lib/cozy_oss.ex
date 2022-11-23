@@ -1,6 +1,6 @@
 defmodule CozyOSS do
   @moduledoc """
-  SDK builder for Aliyun OSS / Alibaba Cloud OSS.
+  SDK builder for RESTful API of Aliyun OSS / Alibaba Cloud OSS.
   """
 
   alias __MODULE__.Config

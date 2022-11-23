@@ -1,6 +1,6 @@
 # CozyOSS
 
-> SDK builder for Aliyun OSS / Alibaba Cloud OSS.
+> SDK builder for RESTful API of Aliyun OSS / Alibaba Cloud OSS.
 
 ## Installation
 
