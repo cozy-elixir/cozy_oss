@@ -1,4 +1,4 @@
-defmodule CozyAliyunOSS.ApiRequest do
+defmodule CozyOSS.ApiRequest do
   @moduledoc """
   Converts `%ApiSpec{}` to a `%ApiRequest{}`.
   """
@@ -61,8 +61,8 @@ defmodule CozyAliyunOSS.ApiRequest do
           private: %{}
         }
 
-  alias CozyAliyunOSS.Config
-  alias CozyAliyunOSS.ApiSpec
+  alias CozyOSS.Config
+  alias CozyOSS.ApiSpec
 
   @spec build!(Config.t(), ApiSpec.t(), keyword()) :: __MODULE__.t()
   def build!(%Config{} = config, %ApiSpec{} = api_spec, opts) do

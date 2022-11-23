@@ -1,6 +1,6 @@
-defmodule CozyAliyunOSS.ConfigTest do
+defmodule CozyOSS.ConfigTest do
   use ExUnit.Case
-  alias CozyAliyunOSS.Config
+  alias CozyOSS.Config
 
   describe "new!/1" do
     test "creates a %Config{} struct" do

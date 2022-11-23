@@ -1,4 +1,4 @@
-defmodule CozyAliyunOSS.Config do
+defmodule CozyOSS.Config do
   @enforce_keys [:host, :bucket, :access_key_id, :access_key_secret]
   defstruct @enforce_keys
 

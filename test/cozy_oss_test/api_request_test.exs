@@ -1,6 +1,6 @@
-defmodule CozyAliyunOSS.ApiRequestTest do
+defmodule CozyOSS.ApiRequestTest do
   use ExUnit.Case
-  alias CozyAliyunOSS.ApiRequest
+  alias CozyOSS.ApiRequest
 
   describe "important underlying functions works as expected, such as" do
     test "build_string_to_sign_for_header_signature/1" do

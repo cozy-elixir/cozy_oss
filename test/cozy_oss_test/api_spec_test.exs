@@ -1,6 +1,6 @@
-defmodule CozyAliyunOSS.ApiSpecTest do
+defmodule CozyOSS.ApiSpecTest do
   use ExUnit.Case
-  alias CozyAliyunOSS.ApiSpec
+  alias CozyOSS.ApiSpec
 
   describe "new!/1" do
     test "creates an %ApiSpec{} struct" do

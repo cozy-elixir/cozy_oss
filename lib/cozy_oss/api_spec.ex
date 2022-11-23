@@ -1,4 +1,4 @@
-defmodule CozyAliyunOSS.ApiSpec do
+defmodule CozyOSS.ApiSpec do
   @moduledoc """
   Describes the specification of an API.
   """
