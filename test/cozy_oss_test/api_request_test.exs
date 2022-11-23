@@ -30,6 +30,33 @@ defmodule CozyOSS.ApiRequestTest do
                "PUT\neB5eJF1ptWaXm4bijSPyxw==\ntext/html\nThu, 17 Nov 2005 18:49:58 GMT\nx-oss-meta-author:foo@example.com\nx-oss-meta-magic:abracadabra\n/examplebucket/nelson"
     end
 
+    test "build_string_to_sign_for_url_signature/1" do
+      request = %ApiRequest{
+        scheme: :https,
+        host: "examplebucket.oss-cn-hangzhou.aliyuncs.com",
+        port: 443,
+        method: "PUT",
+        path: "/nelson",
+        query: %{},
+        headers: %{
+          "content-md5" => "eB5eJF1ptWaXm4bijSPyxw==",
+          "content-type" => "text/html",
+          "date" => "Thu, 17 Nov 2005 18:49:58 GMT",
+          "x-oss-meta-author" => "foo@example.com",
+          "x-oss-meta-magic" => "abracadabra"
+        },
+        body: nil,
+        private: %{
+          bucket: "examplebucket",
+          object: "nelson",
+          sub_resources: %{}
+        }
+      }
+
+      assert ApiRequest.build_string_to_sign_for_url_signature(request, 1800) ==
+               "PUT\neB5eJF1ptWaXm4bijSPyxw==\ntext/html\n1800\nx-oss-meta-author:foo@example.com\nx-oss-meta-magic:abracadabra\n/examplebucket/nelson"
+    end
+
     test "canonicalize_oss_headers/1" do
       assert ApiRequest.canonicalize_oss_headers(%{}) == ""
 

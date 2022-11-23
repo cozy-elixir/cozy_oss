@@ -130,7 +130,7 @@ defmodule CozyOSS.ApiRequest do
 
     case sign_on do
       :header -> set_signature_on_header(config, req)
-      :query -> set_signature_on_query(req)
+      :url -> set_signature_on_url(config, req, opts)
       _ -> raise ArgumentError, "unknown :sign_on value - #{inspect(sign_on)}"
     end
   end
@@ -142,9 +142,6 @@ defmodule CozyOSS.ApiRequest do
       |> hmac_sha1(config.access_key_secret)
 
     set_header(req, "authorization", "OSS #{config.access_key_id}:#{signature}")
-  end
-
-  defp set_signature_on_query(%__MODULE__{} = req) do
   end
 
   @doc false
@@ -164,6 +161,47 @@ defmodule CozyOSS.ApiRequest do
     ]
     |> Enum.reject(&(&1 == ""))
     |> Enum.join("\n")
+  end
+
+  defp set_signature_on_url(%Config{} = config, %__MODULE__{} = req, opts) do
+    five_minutes_in_seconds = 900
+    expire_seconds = Keyword.get(opts, :expire_seconds, five_minutes_in_seconds)
+    expires = get_expires(expire_seconds)
+
+    signature =
+      req
+      |> build_string_to_sign_for_url_signature(expires)
+      |> hmac_sha1(config.access_key_secret)
+
+    req
+    |> set_query("OSSAccessKeyId", config.access_key_id)
+    |> set_query("Expires", expires)
+    |> set_query("Signature", signature)
+  end
+
+  @doc false
+  def build_string_to_sign_for_url_signature(%__MODULE{} = req, expires) do
+    %{
+      headers: headers,
+      private: %{bucket: bucket, object: object, sub_resources: sub_resources}
+    } = req
+
+    [
+      req.method,
+      fetch_header!(req, "content-md5"),
+      fetch_header!(req, "content-type"),
+      expires,
+      canonicalize_oss_headers(headers),
+      canonicalize_resource(bucket, object, sub_resources)
+    ]
+    |> Enum.reject(&(&1 == ""))
+    |> Enum.join("\n")
+  end
+
+  defp get_expires(expire_seconds) do
+    DateTime.utc_now()
+    |> DateTime.to_unix()
+    |> Kernel.+(expire_seconds)
   end
 
   # creation of CanonicalizedOSSHeaders
@@ -209,6 +247,12 @@ defmodule CozyOSS.ApiRequest do
       {k, v} -> "#{k}=#{v}"
     end)
     |> Enum.join("&")
+  end
+
+  def set_query(%__MODULE__{} = req, name, value)
+      when is_binary(name) do
+    new_query = Map.put(req.query, name, value)
+    %{req | query: new_query}
   end
 
   defp set_header(%__MODULE__{} = req, name, value)
