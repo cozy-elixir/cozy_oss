@@ -13,14 +13,16 @@ defmodule CozyOSSTest do
 
     bucket = System.fetch_env!("COZY_OSS_BUCKET")
 
-    assert {:ok, _} =
+    assert {:ok, 404, _headers, body} =
              config
              |> CozyOSS.build(%{
                bucket: bucket,
-               object: "hello.png",
+               object: "not-found.png",
                method: "GET",
-               path: "/hello.png"
+               path: "/not-found.png"
              })
              |> CozyOSS.request()
+
+    assert is_map(body)
   end
 end

@@ -13,6 +13,7 @@ defmodule CozyOSS.ApiClient do
   """
 
   alias CozyOSS.ApiRequest
+  alias CozyOSS.XML
 
   @type status :: pos_integer()
   @type headers :: [{binary(), binary()}]
@@ -48,8 +49,22 @@ defmodule CozyOSS.ApiClient do
 
   @doc false
   def request(%ApiRequest{} = req) do
-    api_client().request(req)
+    req
+    |> api_client().request()
+    |> maybe_to_map()
   end
+
+  defp maybe_to_map({:ok, status, headers, body} = response) do
+    case List.keyfind(headers, "content-type", 0) do
+      {"content-type", "application/xml"} ->
+        {:ok, status, headers, XML.to_map!(body)}
+
+      _ ->
+        response
+    end
+  end
+
+  defp maybe_to_map(response), do: response
 
   defp api_client do
     Application.fetch_env!(:cozy_oss, :api_client)

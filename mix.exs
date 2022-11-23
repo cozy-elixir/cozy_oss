@@ -23,6 +23,7 @@ defmodule CozyOSS.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:sax_map, "~> 1.0"},
       {:finch, "~> 0.13", only: [:dev, :test]}
     ]
   end
