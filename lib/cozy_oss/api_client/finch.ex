@@ -63,7 +63,7 @@ defmodule CozyOSS.ApiClient.Finch do
 
     case Finch.request(request, finch_name()) do
       {:ok, response} ->
-        {:ok, response}
+        {:ok, response.status, response.headers, response.body}
 
       {:error, reason} ->
         {:error, reason}

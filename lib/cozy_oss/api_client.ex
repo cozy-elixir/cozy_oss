@@ -14,10 +14,14 @@ defmodule CozyOSS.ApiClient do
 
   alias CozyOSS.ApiRequest
 
+  @type status :: pos_integer()
+  @type headers :: [{binary(), binary()}]
+  @type body :: binary()
+
   @typedoc """
   The response of a request.
   """
-  @type response() :: {:ok, term()} | {:error, term()}
+  @type response() :: {:ok, status, headers, body} | {:error, term()}
 
   @doc """
   Callback to initialize the given API client.
