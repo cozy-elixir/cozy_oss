@@ -2,10 +2,17 @@
 
 > SDK builder for RESTful API of Aliyun OSS / Alibaba Cloud OSS.
 
+This package is an SDK builder.
+
+It provides utilities to reduce the cost of creating an SDK, such as:
+
+- building request
+- signing request
+- ...
+
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `cozy_oss` to your list of dependencies in `mix.exs`:
+Add `cozy_oss` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
@@ -15,9 +22,20 @@ def deps do
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/cozy_oss>.
+## Usage
+
+Read the example code in this [test](https://github.com/cozy-elixir/cozy_oss/tree/master/test/example_sdk_test.exs).
+
+For more information, see the [documentation](https://hexdocs.pm/cozy_oss).
+
+## Why not providing one-to-one mapping against the RESTful API ?
+
+`cozy_oss` doesn't provide one-to-one mapping against the RESTful API of Aliyun OSS / Alibaba Cloud OSS, beacuse:
+
+- The official API documentation isn't structured data. It is impossible to parse and map them to API requests.
+- It is tedious and error-prone to do the mapping manually.
+
+Considering that I'm only doing this in my spare time, the simpler the better.
 
 ## License
 
