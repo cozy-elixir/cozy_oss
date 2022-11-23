@@ -1,6 +1,6 @@
 # CozyOSS
 
-**TODO: Add description**
+> SDK builder for Aliyun OSS / Alibaba Cloud OSS.
 
 ## Installation
 
@@ -18,3 +18,7 @@ end
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at <https://hexdocs.pm/cozy_oss>.
+
+## License
+
+[Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0)
