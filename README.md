@@ -24,7 +24,97 @@ end
 
 ## Usage
 
-Read the example code in this [test](https://github.com/cozy-elixir/cozy_oss/tree/master/test/example_sdk_test.exs).
+Suppose we want to create an SDK for manipulating files.
+
+First, we create a module:
+
+```elixir
+defmodule Demo.FileStore do
+  @moduledoc """
+  Provides basic API to operate files.
+
+  This module reads configs from following environment variables:
+  + `FILE_STORE_OSS_HOST`
+  + `FILE_STORE_ACCESS_KEY_ID`
+  + `FILE_STORE_ACCESS_KEY_SECRET`
+  + `FILE_STORE_BUCKET`
+  """
+
+  alias CozyOSS.Config
+
+  def put_file(path, data) when is_binary(path) and is_binary(data) do
+    response =
+      config()
+      |> CozyOSS.build(%{
+        bucket: bucket(),
+        object: path,
+        method: "PUT",
+        path: Path.join("/", path),
+        body: data
+      })
+      |> CozyOSS.request()
+
+    with {:ok, 200, _headers, _body} <- response do
+      {:ok, path}
+    end
+  end
+
+  def get_file(path) when is_binary(path) do
+    response =
+      config()
+      |> CozyOSS.build(%{
+        bucket: bucket(),
+        object: path,
+        method: "GET",
+        path: Path.join("/", path)
+      })
+      |> CozyOSS.request()
+
+    with {:ok, 200, _headers, body} <- response do
+      {:ok, body}
+    end
+  end
+
+  def delete_file(path) when is_binary(path) do
+    response =
+      config()
+      |> CozyOSS.build(%{
+        bucket: bucket(),
+        object: path,
+        method: "DELETE",
+        path: Path.join("/", path)
+      })
+      |> CozyOSS.request()
+
+    with {:ok, 204, _headers, _body} <- response do
+      {:ok, path}
+    end
+  end
+
+  defp bucket() do
+    System.fetch_env!("COZY_OSS_BUCKET")
+  end
+
+  defp config() do
+    :demo
+    |> Application.fetch_env!(__MODULE__)
+    |> Config.new!()
+  end
+end
+```
+
+Then, put the configurations into `config/runtime.exs`:
+
+```elixir
+config :demo, Demo.FileStore,
+  %{
+    host: System.fetch_env!("COZY_OSS_HOST"),
+    access_key_id: System.fetch_env!("COZY_OSS_ACCESS_KEY_ID"),
+    access_key_secret: System.fetch_env!("COZY_OSS_ACCESS_KEY_SECRET")
+  }
+```
+
+Check out this [test](https://github.com/cozy-elixir/cozy_oss/tree/master/test/example_sdk_test.exs) for a working example.
 
 For more information, see the [documentation](https://hexdocs.pm/cozy_oss).
 
