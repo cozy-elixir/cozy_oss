@@ -1,5 +1,5 @@
 defmodule CozyOSS.Config do
-  @enforce_keys [:host, :bucket, :access_key_id, :access_key_secret]
+  @enforce_keys [:host, :access_key_id, :access_key_secret]
   defstruct @enforce_keys
 
   @typedoc """
@@ -10,18 +10,14 @@ defmodule CozyOSS.Config do
   """
   @type host() :: String.t()
 
-  @type bucket() :: String.t()
-
   @type config() :: %{
           host: host(),
-          bucket: bucket(),
           access_key_id: String.t(),
           access_key_secret: String.t()
         }
 
   @type t :: %__MODULE__{
           host: host(),
-          bucket: bucket(),
           access_key_id: String.t(),
           access_key_secret: String.t()
         }
