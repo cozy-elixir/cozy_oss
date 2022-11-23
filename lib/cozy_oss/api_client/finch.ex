@@ -73,7 +73,7 @@ defmodule CozyOSS.ApiClient.Finch do
   defp build_method(req), do: req.method
 
   defp build_url(req) do
-    query = URI.encode_query(req.query)
+    query = encode_query(req.query)
 
     %URI{
       scheme: req.scheme,
@@ -84,6 +84,9 @@ defmodule CozyOSS.ApiClient.Finch do
     }
     |> URI.to_string()
   end
+
+  defp encode_query(query) when query == %{}, do: nil
+  defp encode_query(query) when is_map(query), do: URI.encode_query(query)
 
   defp build_headers(req) do
     Enum.map(req.headers, fn {k, v} ->
