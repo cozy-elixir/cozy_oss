@@ -27,7 +27,7 @@ defmodule CozyOSS.ApiRequestTest do
       }
 
       assert ApiRequest.build_string_to_sign_for_header_signature(request) ==
-               "PUT\neB5eJF1ptWaXm4bijSPyxw==\ntext/html\nThu, 17 Nov 2005 18:49:58 GMT\nx-oss-meta-magic:abracadabra\nx-oss-meta-author:foo@example.com\n/examplebucket/nelson"
+               "PUT\neB5eJF1ptWaXm4bijSPyxw==\ntext/html\nThu, 17 Nov 2005 18:49:58 GMT\nx-oss-meta-author:foo@example.com\nx-oss-meta-magic:abracadabra\n/examplebucket/nelson"
     end
 
     test "canonicalize_oss_headers/1" do
