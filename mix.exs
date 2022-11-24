@@ -1,7 +1,7 @@
 defmodule CozyOSS.MixProject do
   use Mix.Project
 
-  @version "0.1.2"
+  @version "0.1.3"
   @description "An SDK builder for RESTful API of Aliyun OSS / Alibaba Cloud OSS."
   @source_url "https://github.com/cozy-elixir/cozy_oss"
 
