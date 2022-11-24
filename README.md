@@ -115,7 +115,7 @@ config :demo, Demo.FileStore,
   }
 ```
 
-Check out this [test](https://github.com/cozy-elixir/cozy_oss/tree/master/test/example_sdk_test.exs) for a working example.
+Check out this [test](https://github.com/cozy-elixir/cozy_oss/tree/master/test/cozy_oss_test.exs) for a working example.
 
 For more information, see the [documentation](https://hexdocs.pm/cozy_oss).
 
@@ -128,7 +128,7 @@ Because:
 - It's hard to do the mapping automatically:
   - The official API documentation isn't structured data.
   - It's hard to parse and map them to API requests.
-- It's hard to do the mapping manually.
+- It's hard to do the mapping manually:
   - It's a tedius work.
   - It's error-prone.
 
