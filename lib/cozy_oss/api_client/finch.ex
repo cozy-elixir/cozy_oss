@@ -55,7 +55,7 @@ defmodule CozyOSS.ApiClient.Finch do
   @impl true
   def request(%ApiRequest{} = req) do
     method = build_method(req)
-    url = build_url(req)
+    url = ApiRequest.to_url(req)
     headers = build_headers(req)
     body = build_body(req)
 
@@ -71,22 +71,6 @@ defmodule CozyOSS.ApiClient.Finch do
   end
 
   defp build_method(req), do: req.method
-
-  defp build_url(req) do
-    query = encode_query(req.query)
-
-    %URI{
-      scheme: req.scheme,
-      host: req.host,
-      port: req.port,
-      path: req.path,
-      query: query
-    }
-    |> URI.to_string()
-  end
-
-  defp encode_query(query) when query == %{}, do: nil
-  defp encode_query(query) when is_map(query), do: URI.encode_query(query)
 
   defp build_headers(req) do
     Enum.map(req.headers, fn {k, v} ->

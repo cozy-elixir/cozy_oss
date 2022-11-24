@@ -16,4 +16,7 @@ defmodule CozyOSS do
 
   @spec request(ApiRequest.t()) :: ApiClient.response()
   defdelegate request(api_request), to: ApiClient
+
+  @spec to_url!(ApiRequest.t()) :: String.t()
+  defdelegate to_url!(api_request), to: ApiRequest
 end

@@ -12,7 +12,8 @@ defmodule CozyOSS.ApiRequest do
     :query,
     :headers,
     :body,
-    private: %{}
+    private: %{},
+    meta: %{}
   ]
 
   @typedoc """
@@ -47,7 +48,9 @@ defmodule CozyOSS.ApiRequest do
   """
   @type body() :: iodata() | nil
 
-  @type private_metadata() :: %{optional(atom()) => term()}
+  @type private() :: %{optional(atom()) => term()}
+
+  @type meta() :: %{optional(atom()) => term()}
 
   @type t :: %__MODULE__{
           scheme: scheme(),
@@ -58,7 +61,8 @@ defmodule CozyOSS.ApiRequest do
           query: query(),
           headers: headers(),
           body: body(),
-          private: %{}
+          private: private(),
+          meta: meta()
         }
 
   alias CozyOSS.Config
@@ -129,12 +133,13 @@ defmodule CozyOSS.ApiRequest do
   end
 
   defp set_signature(%Config{} = config, %__MODULE__{} = req, opts) do
-    sign_on = Keyword.get(opts, :sign_on, :header)
+    sign_by = Keyword.get(opts, :sign_by, :header)
+    req = set_meta(req, :sign_by, sign_by)
 
-    case sign_on do
+    case sign_by do
       :header -> set_signature_on_header(config, req)
       :url -> set_signature_on_url(config, req, opts)
-      _ -> raise ArgumentError, "unknown :sign_on value - #{inspect(sign_on)}"
+      _ -> raise ArgumentError, "unknown :sign_by value - #{inspect(sign_by)}"
     end
   end
 
@@ -276,6 +281,11 @@ defmodule CozyOSS.ApiRequest do
     Map.fetch!(req.headers, name)
   end
 
+  defp set_meta(%__MODULE__{} = req, name, value) do
+    new_meta = Map.put(req.meta, name, value)
+    %{req | meta: new_meta}
+  end
+
   @doc false
   def md5_hash(nil), do: md5_hash("")
 
@@ -294,5 +304,32 @@ defmodule CozyOSS.ApiRequest do
   defp gmt_now() do
     now = DateTime.utc_now()
     Calendar.strftime(now, "%a, %d %b %Y %H:%M:%S GMT")
+  end
+
+  @doc false
+  def to_url(%__MODULE__{} = req) do
+    query = encode_query(req.query)
+
+    %URI{
+      scheme: req.scheme,
+      host: req.host,
+      port: req.port,
+      path: req.path,
+      query: query
+    }
+    |> URI.to_string()
+  end
+
+  defp encode_query(query) when query == %{}, do: nil
+  defp encode_query(query) when is_map(query), do: URI.encode_query(query)
+
+  @doc """
+  Converts a request to a URL.
+  """
+  def to_url!(%__MODULE__{meta: %{sign_by: :url}} = req), do: to_url(req)
+
+  def to_url!(%__MODULE__{}) do
+    raise ArgumentError,
+          "to_url!/1 only supports requests built by build!(config, api_spec, sign_by: :url)"
   end
 end
