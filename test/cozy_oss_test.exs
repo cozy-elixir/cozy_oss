@@ -95,23 +95,24 @@ defmodule CozyOSSTest do
     defp bucket() do
       :demo
       |> Application.fetch_env!(__MODULE__)
-      |> Map.fetch!(:bucket)
+      |> Keyword.fetch!(:bucket)
     end
 
     defp config() do
       :demo
       |> Application.fetch_env!(__MODULE__)
+      |> Enum.into(%{})
       |> Config.new!()
     end
   end
 
   setup do
-    Application.put_env(:demo, __MODULE__.FileStore, %{
+    Application.put_env(:demo, __MODULE__.FileStore,
       host: System.fetch_env!("COZY_OSS_HOST"),
       access_key_id: System.fetch_env!("COZY_OSS_ACCESS_KEY_ID"),
       access_key_secret: System.fetch_env!("COZY_OSS_ACCESS_KEY_SECRET"),
       bucket: System.fetch_env!("COZY_OSS_BUCKET")
-    })
+    )
 
     :ok
   end

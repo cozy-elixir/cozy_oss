@@ -95,12 +95,13 @@ defmodule Demo.FileStore do
   defp bucket() do
     :demo
     |> Application.fetch_env!(__MODULE__)
-    |> Map.fetch!(:bucket)
+    |> Keyword.fetch!(:bucket)
   end
 
   defp config() do
     :demo
     |> Application.fetch_env!(__MODULE__)
+    |> Enum.into(%{})
     |> Config.new!()
   end
 end
@@ -110,12 +111,10 @@ Then, put the configurations into `config/runtime.exs`:
 
 ```elixir
 config :demo, Demo.FileStore,
-  %{
-    host: System.fetch_env!("COZY_OSS_HOST"),
-    access_key_id: System.fetch_env!("COZY_OSS_ACCESS_KEY_ID"),
-    access_key_secret: System.fetch_env!("COZY_OSS_ACCESS_KEY_SECRET"),
-    bucket: System.fetch_env!("COZY_OSS_BUCKET")
-  }
+  host: System.fetch_env!("COZY_OSS_HOST"),
+  access_key_id: System.fetch_env!("COZY_OSS_ACCESS_KEY_ID"),
+  access_key_secret: System.fetch_env!("COZY_OSS_ACCESS_KEY_SECRET"),
+  bucket: System.fetch_env!("COZY_OSS_BUCKET")
 ```
 
 Check out this [test](https://github.com/cozy-elixir/cozy_oss/tree/master/test/cozy_oss_test.exs) for a working example.
