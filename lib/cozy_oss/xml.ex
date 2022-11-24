@@ -2,6 +2,11 @@ defmodule CozyOSS.XML do
   @moduledoc """
   XML helpers.
   """
+
+  @doc """
+  Convert XML string to a map with snake-cased keys.
+  """
+  @spec to_map!(String.t()) :: map()
   def to_map!(xml_string) do
     with {:ok, map} <- SAXMap.from_string(xml_string) do
       to_snake_case(map)

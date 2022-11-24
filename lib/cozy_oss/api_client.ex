@@ -8,7 +8,7 @@ defmodule CozyOSS.ApiClient do
 
   Or, set it to your own API client, such as:
 
-     config :cozy_oss, :api_client, MyApiClient
+      config :cozy_oss, :api_client, MyApiClient
 
   """
 
@@ -47,7 +47,14 @@ defmodule CozyOSS.ApiClient do
     :ok
   end
 
-  @doc false
+  @doc """
+  Send a struct `%CozyOSS.ApiRequest{}` as an HTTP request by the given API client.
+
+  When the `Content-Type` header of the response is `"application/xml"`, this function will try to convert
+  the XML content to a map with snaked-cased keys.
+
+  """
+  @spec request(ApiRequest.t()) :: response()
   def request(%ApiRequest{} = req) do
     req
     |> api_client().request()

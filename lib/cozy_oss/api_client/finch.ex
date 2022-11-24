@@ -1,10 +1,10 @@
 defmodule CozyOSS.ApiClient.Finch do
   @moduledoc """
-  Finch-based ApiClient for CozyOSS.
+  Finch-based API client for CozyOSS.
 
       config :cozy_oss, :api_client, CozyOSS.ApiClient.Finch
 
-  In order to use `Finch` API client, you must start `Finch` and provide a :name.
+  In order to use `Finch` API client, you must start `Finch` and provide a `:name`.
   Often in your supervision tree:
 
       children = [
@@ -16,7 +16,7 @@ defmodule CozyOSS.ApiClient.Finch do
       Finch.start_link(name: CozyOSS.Finch)
 
   If a name different from `CozyOSS.Finch` is used, or you want to use an existing Finch instance,
-  you can provide the name via the config.
+  you can provide the name via the config:
 
       config :cozy_oss,
         api_client: CozyOSS.ApiClient.Finch,

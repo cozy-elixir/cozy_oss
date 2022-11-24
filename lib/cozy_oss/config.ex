@@ -3,10 +3,14 @@ defmodule CozyOSS.Config do
   defstruct @enforce_keys
 
   @typedoc """
+  The host of API request.
+
   One of following formats:
 
-  + `<bucket name>.<endpoint>`, such as `example-bucket.oss-cn-hangzhou.aliyuncs.com`.
+  + `<endpoint>`, such as `oss-us-west-1.aliyuncs.com`.
+  + `<bucket name>.<endpoint>`, such as `example-bucket.oss-us-west-1.aliyuncs.com`.
   + custom domain name, such as `www.example.com`.
+
   """
   @type host() :: String.t()
 
@@ -22,7 +26,7 @@ defmodule CozyOSS.Config do
           access_key_secret: String.t()
         }
 
-  @spec new!(config()) :: __MODULE__.t()
+  @spec new!(config()) :: t()
   def new!(config) when is_map(config) do
     config
     |> validate_required_keys!()

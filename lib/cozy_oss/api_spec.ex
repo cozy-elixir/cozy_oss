@@ -65,6 +65,7 @@ defmodule CozyOSS.ApiSpec do
           body: body()
         }
 
+  @spec build!(config()) :: t()
   def build!(config) when is_map(config) do
     config
     |> validate_required_keys!()

@@ -68,7 +68,21 @@ defmodule CozyOSS.ApiRequest do
   alias CozyOSS.Config
   alias CozyOSS.ApiSpec
 
-  @spec build!(Config.t(), ApiSpec.t(), keyword()) :: __MODULE__.t()
+  @default_expiration_in_seconds_for_signing_on_url 900
+
+  @doc """
+  Bulid a struct `%CozyOSS.ApiRequest{}` from `%CozyOSS.Config{}` and `%CozyOSS.ApiSpec{}`.
+
+  This function has built-in signing support, and it's controlled by option `:sign_by`:
+
+  + `sign_by: :header` - add signatures to request headers.
+  + `sign_by: :url` - add signatures to URL.
+
+  When using `sign_by: :url`, an extra option `:expiration_in_seconds` is supported. The default value
+  is `#{inspect(@default_expiration_in_seconds_for_signing_on_url)}`.
+
+  """
+  @spec build!(Config.t(), ApiSpec.t(), keyword()) :: t()
   def build!(%Config{} = config, %ApiSpec{} = api_spec, opts) do
     build_request(config, api_spec)
     |> set_essential_headers()
@@ -179,9 +193,10 @@ defmodule CozyOSS.ApiRequest do
   end
 
   defp set_signature_on_url(%Config{} = config, %__MODULE__{} = req, opts) do
-    five_minutes_in_seconds = 900
-    expire_seconds = Keyword.get(opts, :expiration_in_seconds, five_minutes_in_seconds)
-    expires = get_expires(expire_seconds)
+    expiration_in_seconds =
+      Keyword.get(opts, :expiration_in_seconds, @default_expiration_in_seconds_for_signing_on_url)
+
+    expires = get_expires(expiration_in_seconds)
 
     signature =
       req
@@ -271,8 +286,8 @@ defmodule CozyOSS.ApiRequest do
     |> Enum.join("&")
   end
 
-  def set_query(%__MODULE__{} = req, name, value)
-      when is_binary(name) do
+  defp set_query(%__MODULE__{} = req, name, value)
+       when is_binary(name) do
     new_query = Map.put(req.query, name, value)
     %{req | query: new_query}
   end
@@ -338,8 +353,9 @@ defmodule CozyOSS.ApiRequest do
   defp encode_query(query) when is_map(query), do: URI.encode_query(query)
 
   @doc """
-  Converts a request to a URL.
+  Converts a request to a signed URL.
   """
+  @spec to_url!(t()) :: binary()
   def to_url!(%__MODULE__{meta: %{sign_by: :url}} = req), do: to_url(req)
 
   def to_url!(%__MODULE__{}) do
