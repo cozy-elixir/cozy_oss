@@ -85,7 +85,8 @@ defmodule CozyOSSTest do
             "content-type" => ""
           }
         },
-        sign_by: :url
+        sign_by: :url,
+        expiration_in_seconds: 300
       )
       # to_url!/1 requires the request is signed by URL.
       |> CozyOSS.to_url!()

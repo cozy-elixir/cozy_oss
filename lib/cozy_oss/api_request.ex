@@ -180,7 +180,7 @@ defmodule CozyOSS.ApiRequest do
 
   defp set_signature_on_url(%Config{} = config, %__MODULE__{} = req, opts) do
     five_minutes_in_seconds = 900
-    expire_seconds = Keyword.get(opts, :expire_seconds, five_minutes_in_seconds)
+    expire_seconds = Keyword.get(opts, :expiration_in_seconds, five_minutes_in_seconds)
     expires = get_expires(expire_seconds)
 
     signature =
