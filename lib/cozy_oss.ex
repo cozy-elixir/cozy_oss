@@ -7,6 +7,7 @@ defmodule CozyOSS do
   alias __MODULE__.ApiSpec
   alias __MODULE__.ApiRequest
   alias __MODULE__.ApiClient
+  alias __MODULE__.Object
 
   @doc """
   Bulid a struct `%CozyOSS.ApiRequest{}`.
@@ -27,9 +28,12 @@ defmodule CozyOSS do
     ApiRequest.build!(config, api_spec, opts)
   end
 
-  @spec request(ApiRequest.t()) :: ApiClient.response()
   defdelegate request(api_request), to: ApiClient
 
-  @spec to_url!(ApiRequest.t()) :: String.t()
   defdelegate to_url!(api_request), to: ApiRequest
+
+  defdelegate sign_post_object_policy(config, conditions, expiration_in_seconds), to: Object
+
+  @doc false
+  def json_library, do: Application.fetch_env!(:cozy_oss, :json_library)
 end
