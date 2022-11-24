@@ -1,6 +1,6 @@
 defmodule CozyOSS do
   @moduledoc """
-  SDK builder for RESTful API of Aliyun OSS / Alibaba Cloud OSS.
+  An SDK builder for RESTful API of Aliyun OSS / Alibaba Cloud OSS.
   """
 
   alias __MODULE__.Config
@@ -10,7 +10,7 @@ defmodule CozyOSS do
   alias __MODULE__.Object
 
   @doc """
-  Bulid a struct `%CozyOSS.ApiRequest{}`.
+  Bulids a struct `%CozyOSS.ApiRequest{}`.
 
   This function has built-in signing support, and it's controlled by option `:sign_by`:
 
