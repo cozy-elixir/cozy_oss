@@ -93,7 +93,9 @@ defmodule Demo.FileStore do
   end
 
   defp bucket() do
-    System.fetch_env!("COZY_OSS_BUCKET")
+    :demo
+    |> Application.fetch_env!(__MODULE__)
+    |> Map.fetch!(:bucket)
   end
 
   defp config() do
@@ -111,7 +113,8 @@ config :demo, Demo.FileStore,
   %{
     host: System.fetch_env!("COZY_OSS_HOST"),
     access_key_id: System.fetch_env!("COZY_OSS_ACCESS_KEY_ID"),
-    access_key_secret: System.fetch_env!("COZY_OSS_ACCESS_KEY_SECRET")
+    access_key_secret: System.fetch_env!("COZY_OSS_ACCESS_KEY_SECRET"),
+    bucket: System.fetch_env!("COZY_OSS_BUCKET")
   }
 ```
 
