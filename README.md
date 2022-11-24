@@ -46,7 +46,7 @@ defmodule Demo.FileStore do
   def put_file(path, data) when is_binary(path) and is_binary(data) do
     response =
       config()
-      |> CozyOSS.build(%{
+      |> CozyOSS.build!(%{
         bucket: bucket(),
         object: path,
         method: "PUT",
@@ -63,7 +63,7 @@ defmodule Demo.FileStore do
   def get_file(path) when is_binary(path) do
     response =
       config()
-      |> CozyOSS.build(%{
+      |> CozyOSS.build!(%{
         bucket: bucket(),
         object: path,
         method: "GET",
@@ -79,7 +79,7 @@ defmodule Demo.FileStore do
   def delete_file(path) when is_binary(path) do
     response =
       config()
-      |> CozyOSS.build(%{
+      |> CozyOSS.build!(%{
         bucket: bucket(),
         object: path,
         method: "DELETE",

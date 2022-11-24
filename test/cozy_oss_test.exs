@@ -12,7 +12,7 @@ defmodule CozyOSSTest do
     def put_file(path, data) when is_binary(path) and is_binary(data) do
       response =
         config()
-        |> CozyOSS.build(
+        |> CozyOSS.build!(
           %{
             bucket: bucket(),
             object: path,
@@ -33,7 +33,7 @@ defmodule CozyOSSTest do
     def get_file(path) when is_binary(path) do
       response =
         config()
-        |> CozyOSS.build(
+        |> CozyOSS.build!(
           %{
             bucket: bucket(),
             object: path,
@@ -53,7 +53,7 @@ defmodule CozyOSSTest do
     def delete_file(path) when is_binary(path) do
       response =
         config()
-        |> CozyOSS.build(
+        |> CozyOSS.build!(
           %{
             bucket: bucket(),
             object: path,
@@ -72,7 +72,7 @@ defmodule CozyOSSTest do
 
     def get_public_url(path) when is_binary(path) do
       config()
-      |> CozyOSS.build(
+      |> CozyOSS.build!(
         %{
           bucket: bucket(),
           object: path,

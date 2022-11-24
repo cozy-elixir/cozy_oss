@@ -21,8 +21,8 @@ defmodule CozyOSS do
   See `CozyOSS.ApiRequest.build!/3` for more information.
 
   """
-  @spec build(Config.t(), ApiSpec.config()) :: any()
-  def build(%Config{} = config, api_spec_config, opts \\ []) do
+  @spec build!(Config.t(), ApiSpec.config()) :: any()
+  def build!(%Config{} = config, api_spec_config, opts \\ []) do
     api_spec = ApiSpec.build!(api_spec_config)
     ApiRequest.build!(config, api_spec, opts)
   end
