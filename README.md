@@ -9,7 +9,7 @@ This package is an SDK builder. It provides utilities to reduce the cost of crea
 - converting the XML in the response to a map with snake-cased keys
 - ...
 
-It doesn't provide one-to-one mapping against the RESTful API of Aliyun OSS / Alibaba Cloud OSS.
+It doesn't provide one-to-one mapping against the RESTful API of Aliyun OSS / Alibaba Cloud OSS. See the reason in [FAQ](#FAQ).
 
 ## Installation
 
@@ -119,12 +119,18 @@ Check out this [test](https://github.com/cozy-elixir/cozy_oss/tree/master/test/e
 
 For more information, see the [documentation](https://hexdocs.pm/cozy_oss).
 
-## Why not providing one-to-one mapping against the RESTful API ?
+## FAQ
+
+### Why not providing one-to-one mapping against the RESTful API ?
 
 Because:
 
-- The official API documentation isn't structured data. It is impossible to parse and map them to API requests.
-- It is tedious and error-prone to do the mapping manually.
+- It's hard to do the mapping automatically:
+  - The official API documentation isn't structured data.
+  - It's hard to parse and map them to API requests.
+- It's hard to do the mapping manually.
+  - It's a tedius work.
+  - It's error-prone.
 
 Considering that I'm only doing this in my spare time, the simpler the better.
 
