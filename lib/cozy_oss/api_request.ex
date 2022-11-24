@@ -159,16 +159,23 @@ defmodule CozyOSS.ApiRequest do
       private: %{bucket: bucket, object: object, sub_resources: sub_resources}
     } = req
 
-    [
+    part1 = [
       req.method,
       fetch_header!(req, "content-md5"),
       fetch_header!(req, "content-type"),
-      fetch_header!(req, "date"),
-      canonicalize_oss_headers(headers),
-      canonicalize_resource(bucket, object, sub_resources)
+      fetch_header!(req, "date")
     ]
-    |> Enum.reject(&(&1 == ""))
-    |> Enum.join("\n")
+
+    part2 =
+      Enum.reject(
+        [
+          canonicalize_oss_headers(headers),
+          canonicalize_resource(bucket, object, sub_resources)
+        ],
+        &(&1 == "")
+      )
+
+    Enum.join(part1 ++ part2, "\n")
   end
 
   defp set_signature_on_url(%Config{} = config, %__MODULE__{} = req, opts) do
@@ -194,16 +201,23 @@ defmodule CozyOSS.ApiRequest do
       private: %{bucket: bucket, object: object, sub_resources: sub_resources}
     } = req
 
-    [
+    part1 = [
       req.method,
       fetch_header!(req, "content-md5"),
       fetch_header!(req, "content-type"),
-      expires,
-      canonicalize_oss_headers(headers),
-      canonicalize_resource(bucket, object, sub_resources)
+      expires
     ]
-    |> Enum.reject(&(&1 == ""))
-    |> Enum.join("\n")
+
+    part2 =
+      Enum.reject(
+        [
+          canonicalize_oss_headers(headers),
+          canonicalize_resource(bucket, object, sub_resources)
+        ],
+        &(&1 == "")
+      )
+
+    Enum.join(part1 ++ part2, "\n")
   end
 
   defp get_expires(expire_seconds) do
