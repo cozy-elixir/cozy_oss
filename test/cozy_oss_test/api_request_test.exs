@@ -91,9 +91,5 @@ defmodule CozyOSS.ApiRequestTest do
       assert ApiRequest.canonicalize_resource("example-bucket", "example-object", %{}) ==
                "/example-bucket/example-object"
     end
-
-    test "md5_hash/1" do
-      assert ApiRequest.md5_hash("0123456789") == "eB5eJF1ptWaXm4bijSPyxw=="
-    end
   end
 end

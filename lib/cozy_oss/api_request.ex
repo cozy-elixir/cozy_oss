@@ -65,6 +65,7 @@ defmodule CozyOSS.ApiRequest do
           meta: meta()
         }
 
+  import CozyOSS.Crypto, only: [md5_hash: 1, hmac_sha1: 2]
   alias CozyOSS.Config
   alias CozyOSS.ApiSpec
 
@@ -313,21 +314,6 @@ defmodule CozyOSS.ApiRequest do
   defp set_meta(%__MODULE__{} = req, name, value) do
     new_meta = Map.put(req.meta, name, value)
     %{req | meta: new_meta}
-  end
-
-  @doc false
-  def md5_hash(nil), do: md5_hash("")
-
-  def md5_hash(data) do
-    data
-    |> then(&:crypto.hash(:md5, &1))
-    |> Base.encode64()
-  end
-
-  @doc false
-  def hmac_sha1(data, secret) do
-    :crypto.mac(:hmac, :sha, secret, data)
-    |> Base.encode64()
   end
 
   defp gmt_now() do
