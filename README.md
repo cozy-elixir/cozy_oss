@@ -124,7 +124,7 @@ For more information, see the [documentation](https://hexdocs.pm/cozy_oss).
 
 ## FAQ
 
-### Why not providing one-to-one mapping against the RESTful API ?
+### Why not providing one-to-one mapping against the RESTful API?
 
 Because:
 
@@ -136,6 +136,10 @@ Because:
   - It's error-prone.
 
 Considering that I'm only doing this in my spare time, the simpler the better.
+
+### Does this package support STS (Security Token Service)?
+
+No.
 
 ## License
 
