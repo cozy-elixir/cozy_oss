@@ -9,7 +9,7 @@ This package is an SDK builder. It provides utilities to reduce the cost of crea
 - converting the XML in the response to a map with snake-cased keys
 - ...
 
-It doesn't provide one-to-one mapping against the RESTful API of Aliyun OSS / Alibaba Cloud OSS. See the reason in [FAQ](#FAQ).
+It doesn't provide one-to-one mapping against the RESTful API of Aliyun OSS / Alibaba Cloud OSS. See the reason in [FAQ](#faq).
 
 ## Installation
 
