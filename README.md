@@ -135,7 +135,9 @@ Because:
   - It's a tedius work.
   - It's error-prone.
 
-Considering that I'm only doing this in my spare time, the simpler the better.
+In real apps, it's rare that all the API provided by OSS are required. In general, only a few API are required. So, mapping what is required is acceptable.
+
+The simpler, the better.
 
 ### Does this package support STS (Security Token Service)?
 
