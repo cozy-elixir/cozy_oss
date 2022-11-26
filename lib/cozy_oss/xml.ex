@@ -1,6 +1,6 @@
 defmodule CozyOSS.XML do
   @moduledoc """
-  XML helpers.
+  Provides XML helpers.
   """
 
   @doc """
