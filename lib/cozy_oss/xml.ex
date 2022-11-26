@@ -4,7 +4,7 @@ defmodule CozyOSS.XML do
   """
 
   @doc """
-  Convert XML string to a map with snake-cased keys.
+  Converts XML string to a map with snake-cased keys.
   """
   @spec to_map!(String.t()) :: map()
   def to_map!(xml_string) do
