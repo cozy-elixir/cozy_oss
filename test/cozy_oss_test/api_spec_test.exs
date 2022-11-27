@@ -2,7 +2,7 @@ defmodule CozyOSS.ApiSpecTest do
   use ExUnit.Case
   alias CozyOSS.ApiSpec
 
-  describe "new!/1" do
+  describe "build!/1" do
     test "creates an %ApiSpec{} struct" do
       assert %ApiSpec{method: _, path: _, query: _, headers: _, body: _} =
                ApiSpec.build!(%{
