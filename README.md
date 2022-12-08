@@ -18,7 +18,7 @@ Add `cozy_oss` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:cozy_oss, "~> 0.1.0"}
+    {:cozy_oss, version}
   ]
 end
 ```
