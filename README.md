@@ -13,7 +13,7 @@ It doesn't provide one-to-one mapping against the RESTful API of Aliyun OSS / Al
 
 ## Installation
 
-Add `cozy_oss` to your list of dependencies in `mix.exs`:
+Add `cozy_oss` to the list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
