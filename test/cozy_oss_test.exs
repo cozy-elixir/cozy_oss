@@ -2,12 +2,17 @@ defmodule CozyOSSTest do
   use ExUnit.Case
   doctest CozyOSS
 
+  @image_binary __DIR__
+                |> Path.join("files/lenna.png")
+                |> File.read!()
+
   defmodule FileStore do
     @moduledoc """
     An example module provides basic API to operate files.
     """
 
     alias CozyOSS.Config
+    alias CozyOSS.Object
 
     def put_file(path, data) when is_binary(path) and is_binary(data) do
       response =
@@ -70,7 +75,7 @@ defmodule CozyOSSTest do
       end
     end
 
-    def get_public_url(path) when is_binary(path) do
+    def get_access_url(path) when is_binary(path) do
       config()
       |> CozyOSS.build!(
         %{
@@ -79,8 +84,8 @@ defmodule CozyOSSTest do
           method: "GET",
           path: Path.join("/", path),
           headers: %{
-            # a normal user has no ability to generate these header, so we skip check them by setting
-            # them to "" or nil.
+            # a normal user has no ability to generate these headers, so we skip checking them by
+            # setting them to "" or nil.
             "content-md5" => "",
             "content-type" => ""
           }
@@ -90,6 +95,34 @@ defmodule CozyOSSTest do
       )
       # to_url!/1 requires the request is signed by URL.
       |> CozyOSS.to_url!()
+    end
+
+    @acl "private"
+    @max_size_in_bytes 1024 * 1024 * 100
+    @expiration_in_seconds 1800
+    def presign_file(path) when is_binary(path) do
+      config = config()
+
+      %{host: host, access_key_id: access_key_id} = config
+
+      conditions = [
+        ["eq", "$key", path],
+        ["eq", "$x-oss-object-acl", @acl],
+        ["content-length-range", 1, @max_size_in_bytes]
+      ]
+
+      %{policy: policy, signature: signature} =
+        Object.sign_post_object_policy(config, conditions, @expiration_in_seconds)
+
+      %{
+        method: "POST",
+        url: "https://#{host}",
+        key: path,
+        acl: @acl,
+        access_key_id: access_key_id,
+        policy: policy,
+        signature: signature
+      }
     end
 
     defp bucket() do
@@ -119,30 +152,50 @@ defmodule CozyOSSTest do
 
   describe "an exmaple SDK - FileStore" do
     test "manages files" do
-      image_binary =
-        __DIR__
-        |> Path.join("files/lenna.png")
-        |> File.read!()
-
       remote_path = "/temporary/lenna.png"
 
-      assert {:ok, _path} = FileStore.put_file(remote_path, image_binary)
+      assert {:ok, _path} = FileStore.put_file(remote_path, @image_binary)
       assert {:ok, _data} = FileStore.get_file(remote_path)
       assert {:ok, _path} = FileStore.delete_file(remote_path)
     end
 
     test "generates a signed URL which can be accessed in Web browser" do
-      image_binary =
-        __DIR__
-        |> Path.join("files/lenna.png")
-        |> File.read!()
-
       remote_path = "/persistent/lenna.png"
 
-      assert {:ok, path} = FileStore.put_file(remote_path, image_binary)
+      assert {:ok, path} = FileStore.put_file(remote_path, @image_binary)
 
-      url = FileStore.get_public_url(path)
-      assert {:ok, {{'HTTP/1.1', 200, 'OK'}, _header, _body}} = :httpc.request(url)
+      url = FileStore.get_access_url(path)
+      assert {:ok, %{status: 200}} = Tesla.get(url)
+    end
+
+    test "presigns a URL for uploading file by PostObject" do
+      alias Tesla.Multipart
+
+      remote_path = "presign/lenna.png"
+
+      %{
+        url: url,
+        method: _method,
+        key: key,
+        acl: acl,
+        access_key_id: access_key_id,
+        policy: policy,
+        signature: signature
+      } = FileStore.presign_file(remote_path)
+
+      mp =
+        Multipart.new()
+        |> Multipart.add_field("key", key)
+        |> Multipart.add_field("x-oss-object-acl", acl)
+        |> Multipart.add_field("OSSAccessKeyId", access_key_id)
+        |> Multipart.add_field("policy", policy)
+        |> Multipart.add_field("Signature", signature)
+        |> Multipart.add_file_content(@image_binary, "lenna.png")
+
+      assert {:ok, %{status: 204}} = Tesla.post(url, mp)
+
+      url = FileStore.get_access_url(remote_path)
+      assert {:ok, %{status: 200}} = Tesla.get(url)
     end
   end
 end

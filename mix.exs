@@ -37,7 +37,8 @@ defmodule CozyOSS.MixProject do
       {:mime, "~> 2.0"},
       {:jason, "~> 1.0"},
       {:ex_doc, "~> 0.25", only: :dev, runtime: false},
-      {:finch, "~> 0.13", only: [:dev, :test]}
+      {:finch, "~> 0.13", only: [:dev, :test]},
+      {:tesla, "~> 1.4", only: [:test]}
     ]
   end
 
