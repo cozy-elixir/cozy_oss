@@ -152,7 +152,7 @@ defmodule CozyOSSTest do
 
   describe "an exmaple SDK - FileStore" do
     test "manages files" do
-      remote_path = "/temporary/lenna.png"
+      remote_path = "temporary/lenna.png"
 
       assert {:ok, _path} = FileStore.put_file(remote_path, @image_binary)
       assert {:ok, _data} = FileStore.get_file(remote_path)
@@ -160,7 +160,7 @@ defmodule CozyOSSTest do
     end
 
     test "generates a signed URL which can be accessed in Web browser" do
-      remote_path = "/persistent/lenna.png"
+      remote_path = "persistent/lenna.png"
 
       assert {:ok, path} = FileStore.put_file(remote_path, @image_binary)
 
