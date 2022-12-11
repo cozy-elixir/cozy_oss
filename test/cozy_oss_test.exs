@@ -117,11 +117,13 @@ defmodule CozyOSSTest do
       %{
         method: "POST",
         url: "https://#{host}",
-        key: path,
-        acl: @acl,
-        access_key_id: access_key_id,
-        policy: policy,
-        signature: signature
+        fields: %{
+          key: path,
+          acl: @acl,
+          access_key_id: access_key_id,
+          policy: policy,
+          signature: signature
+        }
       }
     end
 
@@ -176,11 +178,13 @@ defmodule CozyOSSTest do
       %{
         url: url,
         method: _method,
-        key: key,
-        acl: acl,
-        access_key_id: access_key_id,
-        policy: policy,
-        signature: signature
+        fields: %{
+          key: key,
+          acl: acl,
+          access_key_id: access_key_id,
+          policy: policy,
+          signature: signature
+        }
       } = FileStore.presign_file(remote_path)
 
       mp =
