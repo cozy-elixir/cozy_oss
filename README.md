@@ -35,10 +35,12 @@ defmodule Demo.FileStore do
   Provides basic API to operate files.
 
   This module reads configs from following environment variables:
+
   + `FILE_STORE_OSS_HOST`
-  + `FILE_STORE_ACCESS_KEY_ID`
-  + `FILE_STORE_ACCESS_KEY_SECRET`
-  + `FILE_STORE_BUCKET`
+  + `FILE_STORE_OSS_ACCESS_KEY_ID`
+  + `FILE_STORE_OSS_ACCESS_KEY_SECRET`
+  + `FILE_STORE_OSS_BUCKET`
+
   """
 
   alias CozyOSS.Config
@@ -111,10 +113,10 @@ Then, put the configurations into `config/runtime.exs`:
 
 ```elixir
 config :demo, Demo.FileStore,
-  host: System.fetch_env!("COZY_OSS_HOST"),
-  access_key_id: System.fetch_env!("COZY_OSS_ACCESS_KEY_ID"),
-  access_key_secret: System.fetch_env!("COZY_OSS_ACCESS_KEY_SECRET"),
-  bucket: System.fetch_env!("COZY_OSS_BUCKET")
+  host: System.fetch_env!("FILE_STORE_OSS_HOST"),
+  access_key_id: System.fetch_env!("FILE_STORE_OSS_ACCESS_KEY_ID"),
+  access_key_secret: System.fetch_env!("FILE_STORE_OSS_ACCESS_KEY_SECRET"),
+  bucket: System.fetch_env!("FILE_STORE_OSS_BUCKET")
 ```
 
 Check out this [test](https://github.com/cozy-elixir/cozy_oss/tree/master/test/cozy_oss_test.exs) for a working example.
