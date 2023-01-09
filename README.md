@@ -11,6 +11,10 @@ This package is an SDK builder. It provides utilities to reduce the cost of crea
 
 It doesn't provide one-to-one mapping against the RESTful API of Aliyun OSS / Alibaba Cloud OSS. See the reason in [FAQ](#faq).
 
+## A Plan
+
+This package will be migrated as the `OSS` spec of [CozyAliyunOpenAPI](https://github.com/cozy-elixir/cozy_aliyun_open_api) in the future.
+
 ## Installation
 
 Add `cozy_oss` to the list of dependencies in `mix.exs`:
@@ -139,10 +143,6 @@ Because:
 In real apps, it's rare that all the API provided by OSS are required. In general, only a few API are required. So, mapping what is required is acceptable.
 
 The simpler, the better.
-
-### Does this package support STS (Security Token Service)?
-
-No.
 
 ## License
 
