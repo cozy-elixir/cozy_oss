@@ -1,5 +1,7 @@
 # CozyOSS
 
+[![Hex.pm](https://img.shields.io/hexpm/v/cozy_oss.svg)](https://hex.pm/packages/cozy_oss)
+
 > An SDK builder for RESTful API of Aliyun OSS / Alibaba Cloud OSS.
 
 This package is an SDK builder. It provides utilities to reduce the cost of creating an SDK, such as:
@@ -22,7 +24,7 @@ Add `cozy_oss` to the list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:cozy_oss, version}
+    {:cozy_oss, "~> <version>"}
   ]
 end
 ```
