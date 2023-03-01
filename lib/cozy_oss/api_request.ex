@@ -19,7 +19,7 @@ defmodule CozyOSS.ApiRequest do
   @typedoc """
   Request scheme.
   """
-  @type scheme() :: :https
+  @type scheme() :: String.t()
 
   @typedoc """
   Request method.

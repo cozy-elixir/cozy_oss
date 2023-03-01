@@ -49,13 +49,7 @@ defmodule CozyOSS.ApiSpec do
   """
   @type body() :: iodata() | nil
 
-  @type config() :: %{
-          method: method(),
-          path: path(),
-          query: query(),
-          headers: headers(),
-          body: body()
-        }
+  @type config() :: map()
 
   @type t :: %__MODULE__{
           method: method(),
