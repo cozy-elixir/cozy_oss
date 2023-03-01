@@ -17,7 +17,7 @@ defmodule CozyOSS.ApiClient do
 
   @type status :: pos_integer()
   @type headers :: [{binary(), binary()}]
-  @type body :: binary()
+  @type body :: binary() | map()
 
   @typedoc """
   The response of a request.
@@ -62,8 +62,14 @@ defmodule CozyOSS.ApiClient do
   end
 
   defp maybe_to_map({:ok, status, headers, body} = response) do
-    case List.keyfind(headers, "content-type", 0) do
-      {"content-type", "application/xml"} ->
+    content_type = get_content_type_from_headers(headers)
+
+    case {content_type, body} do
+      {"application/xml", ""} ->
+        # I don't know how to handle an empty body to a map, so it's better to leave it untouched.
+        response
+
+      {"application/xml", body} ->
         {:ok, status, headers, XML.to_map!(body)}
 
       _ ->
@@ -72,6 +78,15 @@ defmodule CozyOSS.ApiClient do
   end
 
   defp maybe_to_map(response), do: response
+
+  defp get_content_type_from_headers(headers) do
+    headers
+    |> List.keyfind("content-type", 0)
+    |> case do
+      {"content-type", type} -> type
+      _ -> nil
+    end
+  end
 
   defp api_client do
     Application.fetch_env!(:cozy_oss, :api_client)
