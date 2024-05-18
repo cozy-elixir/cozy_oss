@@ -1,3 +1,9 @@
+> WARNING!
+>
+> The funtionalities of this package has been migrated as the `OSS` spec of [CozyAliyunOpenAPI](https://github.com/cozy-elixir/cozy_aliyun_open_api).
+>
+> This package will no longer be maintained in the future. Considering that my former employers might still be using it, the repository will not be cleaned up, only archived.
+
 # CozyOSS
 
 [![Hex.pm](https://img.shields.io/hexpm/v/cozy_oss.svg)](https://hex.pm/packages/cozy_oss)
@@ -12,10 +18,6 @@ This package is an SDK builder. It provides utilities to reduce the cost of crea
 - ...
 
 It doesn't provide one-to-one mapping against the RESTful API of Aliyun OSS / Alibaba Cloud OSS. See the reason in [FAQ](#faq).
-
-## A Plan
-
-This package will be migrated as the `OSS` spec of [CozyAliyunOpenAPI](https://github.com/cozy-elixir/cozy_aliyun_open_api) in the future.
 
 ## Installation
 
